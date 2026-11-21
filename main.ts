@@ -9,6 +9,12 @@ import { join } from "node:path";
 const text =
   "The kettle ticks as it cools. Morning light comes back over the roofs, one windowsill at a time. The street is quiet. Nothing is hurrying. There is time. There is time.";
 
+// The gate requires 1-280 Unicode code points, not only whitespace.
+const points = [...text].length;
+if (points < 1 || points > 280 || text.trim().length === 0) {
+  throw new Error(`entry.txt must be 1-280 characters, got ${points}`);
+}
+
 const outDir = process.env.MAKEFUN_OUTPUT_DIR || "/output";
 mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, "entry.txt"), text, "utf8");
